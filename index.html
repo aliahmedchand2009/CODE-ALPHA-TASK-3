@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f3f4f6;
+      }
+
+      .music-player {
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        width: 350px;
+        text-align: center;
+      }
+
+      .header {
+        font-size: 24px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .cover {
+        width: 100%;
+        height: 200px;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        font-size: 16px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      button {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        font-size: 16px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .info {
+        font-size: 18px;
+        margin-top: 10px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="music-player">
+      <div class="header">Music Player</div>
+      <div class="cover" id="cover">Music Cover</div>
+      <div class="info" id="info">No music playing</div>
+      <div class="controls">
+        <button onclick="prevSong()">Prev</button>
+        <button onclick="togglePlayPause()" id="playPause">Play</button>
+        <button onclick="nextSong()">Next</button>
+      </div>
+    </div>
+
+    <script>
+      const songs = [
+        {
+          title: "Song 1",
+          cover: "🎵 Cover 1",
+          file: "one.mp3",
+        },
+        {
+          title: "Song 2",
+          cover: "🎵 Cover 2",
+          file: "two.mp3",
+        },
+        {
+          title: "Song 3",
+          cover: "🎵 Cover 3",
+          file: "three.mp3",
+        },
+      ];
+
+      let currentSongIndex = 0;
+      let isPlaying = false;
+      const audio = new Audio();
+
+      function loadSong(index) {
+        const song = songs[index];
+        document.getElementById("info").innerText = song.title;
+        document.getElementById("cover").innerText = song.cover;
+        audio.src = song.file;
+      }
+
+      function togglePlayPause() {
+        const playPauseButton = document.getElementById("playPause");
+        if (isPlaying) {
+          audio.pause();
+          playPauseButton.innerText = "Play";
+        } else {
+          audio.play();
+          playPauseButton.innerText = "Pause";
+        }
+        isPlaying = !isPlaying;
+      }
+
+      function prevSong() {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+        loadSong(currentSongIndex);
+        if (isPlaying) audio.play();
+      }
+
+      function nextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        loadSong(currentSongIndex);
+        if (isPlaying) audio.play();
+      }
+
+      // Load the first song initially
+      loadSong(currentSongIndex);
+    </script>
+  </body>
+</html>
